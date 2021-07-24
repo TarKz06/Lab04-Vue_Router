@@ -11,8 +11,8 @@ const routes = [
     name: 'EventList',
     component: EventList,
     props: (route) => ({
-      page: parseInt(route.query.page) || 1,
-      perPage: parseInt(route.query.perPage) || 1
+      page: parseInt(route.query.page) || 0,
+      perPage: parseInt(route.query.perPage) || 10
     })
   },
   {

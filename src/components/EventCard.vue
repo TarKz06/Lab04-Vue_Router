@@ -1,8 +1,15 @@
 <template>
-  <router-link class="event-link" :to="{name: 'EventDetails', params: {id: event.id}}">
+  <router-link
+    class="event-link"
+    :to="{ name: 'EventDetails', params: { id: event.id, name: event.name } }"
+  >
     <div class="event-card">
-      <span>@{{ event.time }} on {{ event.data }}</span>
-      <h4>{{ event.title }}</h4>
+      <span>@{{ event.name }} on {{ event.trips }}</span>
+      <div v-for="passager in event.airline" :key="passager.id">
+        <span>
+          {{ passager.name }}
+        </span>
+      </div>
     </div>
   </router-link>
 </template>
@@ -33,8 +40,8 @@ export default {
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
 }
 
-.event-link{
-    color: #2c3e50;
-    text-decoration: none;
+.event-link {
+  color: #2c3e50;
+  text-decoration: none;
 }
 </style>

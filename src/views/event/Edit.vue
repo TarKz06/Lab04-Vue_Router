@@ -14,7 +14,7 @@
         >Edit
       </router-link>
     </div>
-    <p>Edit from here</p>
+    <p>edit</p>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   created() {
     EventService.getEvent(this.id)
       .then((response) => {
-        this.event = response.data
+        this.event = response.data.data
       })
       .catch((error) => {
         console.log(error)

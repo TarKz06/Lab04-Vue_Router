@@ -14,8 +14,7 @@
         >Edit
       </router-link>
     </div>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-    <p>{{ event.description }}</p>
+    <p>dtail</p>
   </div>
 </template>
 
@@ -31,10 +30,10 @@ export default {
   created() {
     EventService.getEvent(this.id)
       .then((response) => {
-        this.event = response.data
+        this.event = response.data.data
       })
       .catch((error) => {
-          console.log(error)
+        console.log(error)
       })
   }
 }
