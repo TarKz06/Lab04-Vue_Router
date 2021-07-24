@@ -2,11 +2,15 @@
   <div v-if="event" class="Airline">
     <p>
       <span>
-        <img :src="event.airline.logo" />
         <img
-          v-if="airline in event.airline"
-          :key="airline.name"
-          :src="airline.logo"
+          v-if="!Array.isArray(event.airline)"
+          :src="event.airline.logo"
+          :alt="event.airline.slogan"
+        />
+        <img
+          v-else
+          :src="event.airline[0].logo"
+          :alt="event.airline[0].slogan"
         />
       </span>
     </p>
