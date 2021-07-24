@@ -1,14 +1,12 @@
 <template>
   <router-link
     class="event-link"
-    :to="{ name: 'EventDetails', params: { id: event.id, name: event.name } }"
+    :to="{ name: 'EventDetails', params: { id: event._id, name: event.name } }"
   >
     <div class="event-card">
-      <span>@{{ event.name }} on {{ event.trips }}</span>
-      <div v-for="passager in event.airline" :key="passager.id">
-        <span>
-          {{ passager.name }}
-        </span>
+      <span>Name :{{ event.name }}</span>
+      <div>
+        <span>Trips :{{ event.trips }}</span>
       </div>
     </div>
   </router-link>

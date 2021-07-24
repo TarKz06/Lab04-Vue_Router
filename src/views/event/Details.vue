@@ -14,7 +14,7 @@
         >Edit
       </router-link>
     </div>
-    <p>dtail</p>
+    <p>{{event.name}}</p>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   created() {
     EventService.getEvent(this.id)
       .then((response) => {
-        this.event = response.data.data
+        this.event = response.data
       })
       .catch((error) => {
         console.log(error)
