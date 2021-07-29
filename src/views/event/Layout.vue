@@ -12,6 +12,7 @@
       |
       <router-link :to="{ name: 'EventEdit', params: { id } }"
         >
+        Edit
       </router-link>
     </div>
     <router-view :event="event" />
