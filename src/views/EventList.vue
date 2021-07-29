@@ -27,7 +27,6 @@
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/services/EventService.js'
-import NProgress from 'nprogress'
 
 // import axios from 'axios'
 export default {
@@ -48,11 +47,10 @@ export default {
   data() {
     return {
       events: null,
-      totalEvents: 0, // <-- Added this to store totalEvent
+      totalEvents: 0 // <-- Added this to store totalEvent
     }
   },
-   beforeRouteEnter(routeTo, routeFrom, next) {
-    NProgress.start()
+  beforeRouteEnter(routeTo, routeFrom, next) {
     EventService.getEvents(
       parseInt(routeTo.query.perPage) || 10,
       parseInt(routeTo.query.page) || 0
@@ -65,13 +63,9 @@ export default {
       })
       .catch(() => {
         next({ name: 'NetworkError' })
-      })
-      .finally(() => {
-        NProgress.done()
       })
   },
   beforeRouteUpdate(routeTo, routeFrom, next) {
-    NProgress.start()
     EventService.getEvents(
       parseInt(routeTo.query.perPage) || 10,
       parseInt(routeTo.query.page) || 0
@@ -85,20 +79,16 @@ export default {
       .catch(() => {
         next({ name: 'NetworkError' })
       })
-      .finally(() => {
-        NProgress.done()
-      })
   },
-  
+
   computed: {
     hasNextPage() {
       //fisrt , calulate total page
       let totalPages = Math.ceil(this.totalEvents / this.perPage) // 2is event per page
       //Then Check to see if the current page is less then total pages
       return this.page < totalPages
-    },
+    }
   }
-
 }
 </script>
 <style scoped>
