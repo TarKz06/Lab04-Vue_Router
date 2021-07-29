@@ -20,14 +20,6 @@
         Next page
       </router-link>
     </div>
-    <select id="checkPage" v-model.number="checkPage">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-      <option>6</option>
-    </select>
   </div>
 </template>
 
@@ -35,7 +27,8 @@
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/services/EventService.js'
-import { watchEffect } from '@vue/runtime-core'
+import NProgress from 'nprogress'
+
 // import axios from 'axios'
 export default {
   name: 'EventList',
@@ -56,29 +49,56 @@ export default {
     return {
       events: null,
       totalEvents: 0, // <-- Added this to store totalEvent
-      checkPage: 1
     }
   },
-  created() {
-    watchEffect(() => {
-      EventService.getEvents(this.perPage, this.page)
-        .then((response) => {
-          this.events = response.data.data
-          this.totalEvents = response.headers['x-total-count']
+   beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+    EventService.getEvents(
+      parseInt(routeTo.query.perPage) || 10,
+      parseInt(routeTo.query.page) || 0
+    )
+      .then((response) => {
+        next((comp) => {
+          comp.events = response.data.data
+          comp.totalEvents = response.headers['x-total-count']
         })
-        .catch((error) => {
-          console.log(error)
-        })
-    })
+      })
+      .catch(() => {
+        next({ name: 'NetworkError' })
+      })
+      .finally(() => {
+        NProgress.done()
+      })
   },
+  beforeRouteUpdate(routeTo, routeFrom, next) {
+    NProgress.start()
+    EventService.getEvents(
+      parseInt(routeTo.query.perPage) || 10,
+      parseInt(routeTo.query.page) || 0
+    )
+      .then((response) => {
+        next((comp) => {
+          comp.events = response.data.data
+          comp.totalEvents = response.headers['x-total-count']
+        })
+      })
+      .catch(() => {
+        next({ name: 'NetworkError' })
+      })
+      .finally(() => {
+        NProgress.done()
+      })
+  },
+  
   computed: {
     hasNextPage() {
       //fisrt , calulate total page
       let totalPages = Math.ceil(this.totalEvents / this.perPage) // 2is event per page
       //Then Check to see if the current page is less then total pages
       return this.page < totalPages
-    }
+    },
   }
+
 }
 </script>
 <style scoped>
